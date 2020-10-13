@@ -3,17 +3,30 @@
 {% block body %}
     <h1>Ajout de l'article :</h1>
     <form method="post">
-        <input type="text" name="Titre">
+        <div>Titre :</div>
+        <input type="text" name="Titre"><br>
+        <div>Description :</div>
         <textarea name="Description">
-        </textarea>
-        <input type="date" name="DateAjout" >
+        </textarea><br>
+        <div>Date :</div>
+        <input type="date" name="DateAjout" ><br>
+        <div>Auteur :</div>
         <select name="Auteur">
             <option >Rebecca</option>
             <option >Alexandre</option>
             <option >Emilie</option>
             <option>Léo</option>
             <option >Aegir</option>
-        </select>
+        </select><br>
+        <div>Catégorie :</div>
+        <select name="Categorie">
+            {% for categorie in categorieList %}
+                <option selected>Journal</option>
+                <option>Informations</option>
+                <option>Reportages</option>
+                <option>Conseils</option>
+            {% endfor %}
+        </select><br>
         <input type="submit" value="Enregistrer les modifications">
     </form>
 
