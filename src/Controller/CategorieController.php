@@ -1,30 +1,29 @@
 <?php
 namespace src\Controller;
 
-use src\Model\Categorie;
+use src\Model\Article;
 use src\Model\BDD;
+use src\Model\Categorie;
 
-class CategorieController extends AbstractController{
+class CategorieController extends AbstractController {
 
-    public function Add()
-    {
-        if ($_POST) {
+    public function Add(){
+        if($_POST){
             $objCategorie = new Categorie();
             $objCategorie->setLibelle($_POST["Libelle"]);
-            $objCategorie->setIcone($_POST["icone"]);
+            $objCategorie->setIcon($_POST["Icon"]);
             //Exécuter l'insertion
             $id = $objCategorie->SqlAdd(BDD::getInstance());
             // Redirection
             header("Location:/categorie/show/$id");
-        } else {
+        }else{
             return $this->twig->render("Categorie/add.html.twig");
         }
-
     }
 
     public function All(){
-        $categorie = new Categorie();
-        $datas = $categorie->SqlGetAll(BDD::getInstance());
+        $categories = new Categorie();
+        $datas = $categories->SqlGetAll(BDD::getInstance());
 
         return $this->twig->render("Categorie/all.html.twig", [
             "categorieList"=>$datas
@@ -32,8 +31,8 @@ class CategorieController extends AbstractController{
     }
 
     public function Show($id){
-        $categorie = new Categorie();
-        $datas = $categorie->SqlGetById(BDD::getInstance(),$id);
+        $categories = new Categorie();
+        $datas = $categories->SqlGetById(BDD::getInstance(),$id);
 
         return $this->twig->render("Categorie/show.html.twig", [
             "categorie"=>$datas
@@ -41,25 +40,26 @@ class CategorieController extends AbstractController{
     }
 
     public function Delete($id){
-        $categorie = new Categorie();
-        $datas = $categorie->SqlDeleteById(BDD::getInstance(),$id);
+        $categories = new Categorie();
+        $datas = $categories->SqlDeleteById(BDD::getInstance(),$id);
 
         header("Location:/Categorie/All");
     }
 
     public function Update($id){
-        $categorie = new Categorie();
-        $datas = $categorie->SqlGetById(BDD::getInstance(),$id);
+        $categories = new Categorie();
+        $datas = $categories->SqlGetById(BDD::getInstance(),$id);
 
         if($_POST){
             $objCategorie = new Categorie();
             $objCategorie->setLibelle($_POST["Libelle"]);
-            $objCategorie->setIcone($_POST["icone"]);
+            $objCategorie->setIcon($_POST["Icon"]);
             $objCategorie->setId($id);
             //Exécuter la mise à jour
             $objCategorie->SqlUpdate(BDD::getInstance());
             // Redirection
             header("Location:/categorie/show/$id");
+
         }else{
             return $this->twig->render("Categorie/update.html.twig", [
                 "categorie"=>$datas
@@ -67,4 +67,6 @@ class CategorieController extends AbstractController{
         }
 
     }
+
+
 }

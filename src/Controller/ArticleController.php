@@ -4,6 +4,7 @@ namespace src\Controller;
 use src\Model\Article;
 use src\Model\BDD;
 use src\Model\Categorie;
+use src\Model\Commentaire;
 
 class ArticleController extends AbstractController {
 
@@ -14,16 +15,16 @@ class ArticleController extends AbstractController {
             $objArticle->setDescription($_POST["Description"]);
             $objArticle->setDateAjout($_POST["DateAjout"]);
             $objArticle->setAuteur($_POST["Auteur"]);
+            $objArticle->setCategorieId($_POST["categorie"]);
             //Exécuter l'insertion
             $id = $objArticle->SqlAdd(BDD::getInstance());
             // Redirection
             header("Location:/article/show/$id");
         }else{
-            $categorie = new Categorie();
-            $datas = $categorie->SqlGetAll(BDD::getInstance());
-
-            return $this->twig->render("Article/add.html.twig", [
-                "categorieList"=>$datas
+            $categories = new Categorie();
+            $datas = $categories->SqlGetAll(BDD::getInstance());
+            return $this->twig->render("Article/add.html.twig",[
+                "categorieList" => $datas
             ]);
         }
 
@@ -42,9 +43,12 @@ class ArticleController extends AbstractController {
     public function Show($id){
         $articles = new Article();
         $datas = $articles->SqlGetById(BDD::getInstance(),$id);
+        $categorie = new Categorie();
+        $dataCategorie = $categorie->SqlGetById(BDD::getInstance(),$datas->getCategorieId());
 
         return $this->twig->render("Article/show.html.twig", [
-            "article"=>$datas
+            "article"=>$datas,
+            "categorie"=> $dataCategorie
         ]);
     }
 

@@ -9,6 +9,44 @@ class Article {
     private $Auteur;
     private $ImageRepository;
     private $ImageFileName;
+    private $categorie_id;
+    private $commentaire_id;
+
+    /**
+     * @return mixed
+     */
+    public function getCommentaireId()
+    {
+        return $this->commentaire_id;
+    }
+
+    /**
+     * @param mixed $Commentaire_Id
+     * @return Article
+     */
+    public function setCommentaireId($Commentaire_Id)
+    {
+        $this->commentaire_id = $Commentaire_Id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategorieId()
+    {
+        return $this->categorie_id;
+    }
+
+    /**
+     * @param mixed $Categorie_Id
+     * @return Article
+     */
+    public function setCategorieId($Categorie_Id)
+    {
+        $this->categorie_id = $Categorie_Id;
+        return $this;
+    }
 
     /**
      * Cette fonction retourne les X premiers mots de la description
@@ -23,10 +61,11 @@ class Article {
 
     public function SqlAdd(\PDO $bdd){
         try {
-            $requete = $bdd->prepare("INSERT INTO articles (Titre, Description, DateAjout, Auteur, ImageRepository, ImageFilename) VALUES(:Titre, :Description, :DateAjout, :Auteur, :ImageRepository, :ImageFilename)");
+            $requete = $bdd->prepare("INSERT INTO articles (Titre, Description, DateAjout, Auteur, ImageRepository, ImageFilename, Categorie_id) VALUES(:Titre, :Description, :DateAjout, :Auteur, :ImageRepository, :ImageFilename, :Categorie_id)");
 
             $requete->execute([
                 "Titre" => $this->getTitre(),
+                "Categorie_id" => $this->getCategorieId(),
                 "Description" => $this->getDescription(),
                 "DateAjout" => $this->getDateAjout(),
                 "Auteur" => $this->getAuteur(),

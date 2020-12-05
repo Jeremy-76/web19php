@@ -1,11 +1,68 @@
 <?php
 namespace src\Model;
 
-class Categorie
-{
+class Categorie {
     private $Id;
     private $Libelle;
-    private $icone;
+    private $Icon;
+
+    public function SqlAdd(\PDO $bdd){
+        try {
+            $requete = $bdd->prepare("INSERT INTO categories (Libelle, Icon) VALUES(:Libelle, :Icon)");
+
+            $requete->execute([
+                "Libelle" => $this->getLibelle(),
+                "Icon" => $this->getIcon(),
+            ]);
+            return $bdd->lastInsertId();
+        }catch (\Exception $e){
+            return $e->getMessage();
+        }
+
+    }
+
+    public function SqlUpdate(\PDO $bdd){
+        try {
+            $requete = $bdd->prepare("UPDATE categories set Libelle= :Libelle, Icon = :Icon WHERE Id = :Id");
+
+            $requete->execute([
+                "Libelle" => $this->getLibelle(),
+                "Icon" => $this->getIcon(),
+                "Id" => $this->getId()
+            ]);
+            return "OK";
+        }catch (\Exception $e){
+            return $e->getMessage();
+        }
+
+    }
+
+    public function SqlGetAll(\PDO $bdd){
+        $requete = $bdd->prepare("SELECT * FROM categories");
+        $requete->execute();
+        $datas =  $requete->fetchAll(\PDO::FETCH_CLASS,'src\Model\Categorie');
+        return $datas;
+
+    }
+
+    public function SqlGetById(\PDO $bdd, $Id){
+        $requete = $bdd->prepare("SELECT * FROM categories WHERE Id=:Id");
+        $requete->execute([
+            "Id" => $Id
+        ]);
+        $requete->setFetchMode(\PDO::FETCH_CLASS,'src\Model\Categorie');
+        $data = $requete->fetch();
+
+        return $data;
+    }
+
+    public function SqlDeleteById(\PDO $bdd, $Id){
+        $requete = $bdd->prepare("DELETE FROM categories WHERE Id=:Id");
+        $requete->execute([
+            "Id" => $Id
+        ]);
+        return true;
+    }
 
     /**
      * @return mixed
@@ -17,7 +74,7 @@ class Categorie
 
     /**
      * @param mixed $Id
-     * @return Article
+     * @return Categorie
      */
     public function setId($Id)
     {
@@ -35,7 +92,7 @@ class Categorie
 
     /**
      * @param mixed $Libelle
-     * @return Article
+     * @return Categorie
      */
     public function setLibelle($Libelle)
     {
@@ -46,78 +103,21 @@ class Categorie
     /**
      * @return mixed
      */
-    public function getIcone()
+    public function getIcon()
     {
-        return $this->icone;
+        return $this->Icon;
     }
 
     /**
-     * @param mixed $icone
-     * @return Article
+     * @param mixed $Icon
+     * @return Categorie
      */
-    public function setIcone($icone)
+    public function setIcon($Icon)
     {
-        $this->icone = $icone;
+        $this->Icon = $Icon;
         return $this;
     }
 
-    public function SqlAdd(\PDO $bdd){
-        try {
-            $requete = $bdd->prepare("INSERT INTO categorie (Libelle, icone) VALUES(:Libelle, :icone)");
 
-            $requete->execute([
-                "Libelle" => $this->getLibelle(),
-                "icone" => $this->getIcone(),
-            ]);
-            return $bdd->lastInsertId();
-        }catch (\Exception $e){
-            return $e->getMessage();
-        }
-    }
-
-    public function SqlGetAll(\PDO $bdd){
-        $requete = $bdd->prepare("SELECT * FROM categorie");
-        $requete->execute();
-        //$datas =  $requete->fetchAll(\PDO::FETCH_ASSOC);
-        $datas =  $requete->fetchAll(\PDO::FETCH_CLASS,'src\Model\Categorie');
-        return $datas;
-
-    }
-
-    public function SqlGetById(\PDO $bdd, $Id){
-        $requete = $bdd->prepare("SELECT * FROM categorie WHERE Id=:Id");
-        $requete->execute([
-            "Id" => $Id
-        ]);
-        $requete->setFetchMode(\PDO::FETCH_CLASS,'src\Model\Categorie');
-        $categorie = $requete->fetch();
-
-        return $categorie;
-    }
-
-    public function SqlDeleteById(\PDO $bdd, $Id){
-        $requete = $bdd->prepare("DELETE FROM categorie WHERE Id=:Id");
-        $requete->execute([
-            "Id" => $Id
-        ]);
-        return true;
-    }
-
-    public function SqlUpdate(\PDO $bdd){
-
-        try {
-            $requete = $bdd->prepare("UPDATE categorie set Libelle= :Libelle, icone = :icone WHERE Id = :Id");
-
-            $requete->execute([
-                "Libelle" => $this->getLibelle(),
-                "icone" => $this->getIcone(),
-                "Id" => $this->getId()
-            ]);
-            return "OK";
-        }catch (\Exception $e){
-            return $e->getMessage();
-        }
-
-    }
 
 }

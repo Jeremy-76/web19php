@@ -1,10 +1,29 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <h1>Détail de l'article</h1>
+    <h1>Détails de l'article</h1>
     <p>{{ article.Titre }}</p>
     <p>{{ article.Description }}</p>
     <p>{{ article.Auteur }}</p>
+    <p>Catégorie = {{ categorie.Libelle }} <span class="{{ categorie.Icon }}"></span></p>
     <p><a href="/article/update/{{ article.Id }}"> Modifier ce super Article </a></p>
     <p><a href="/article/delete/{{ article.Id }}"> Supprimer ce super Article </a></p>
+
+
+
+    <div class="col-md-6 col-md-offset-3 comments-section">
+        <!-- comment form -->
+        <form class="clearfix" action="index.php" method="post" id="comment_form">
+            <h4>Ecrire un commentaire:</h4>
+            <input type="text" name="Auteur" placeholder="Auteur">
+            <input type="email" name="Mail" required placeholder="Votre email">
+            <input type="date" name="Date" required>
+            <textarea name="Comment" id="comment" class="form-control" cols="30" rows="3"></textarea>
+            <button class="btn btn-primary btn-sm pull-right" id="submit_comment">Envoyer</button>
+        </form>
+
+        <!-- Display total number of comments on this post  -->
+        <h2><span id="comments_count">0</span> Commentaire(s)</h2>
+        <hr>
+    </div>
 {% endblock %}
