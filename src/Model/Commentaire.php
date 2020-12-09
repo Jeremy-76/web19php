@@ -5,18 +5,20 @@ class Commentaire {
     private $Id;
     private $Auteur;
     private $Mail;
-    private $Titre;
+    private $Date;
     private $Comment;
+    private $ArticleId;
 
     public function SqlAdd(\PDO $bdd){
         try {
-            $requete = $bdd->prepare("INSERT INTO commentaires (Auteur, Mail, Titre, Comment) VALUES(:Auteur, :Mail, :Titre, :Comment)");
+            $requete = $bdd->prepare("INSERT INTO commentaires (Auteur, Mail, Date, Comment, ArticleId) VALUES(:Auteur, :Mail, :Date, :Comment, :ArticleId)");
 
             $requete->execute([
                 "Auteur" => $this->getAuteur(),
                 "Mail" => $this->getMail(),
-                "Titre" => $this->getTitre(),
+                "Date" => $this->getDate(),
                 "Comment" => $this->getComment(),
+                "ArticleId" => $this->getArticleId(),
             ]);
             return $bdd->lastInsertId();
         }catch (\Exception $e){
@@ -25,135 +27,83 @@ class Commentaire {
 
     }
 
-    public function SqlUpdate(\PDO $bdd){
-        try {
-            $requete = $bdd->prepare("UPDATE commentaires set Auteur= :Auteur, Mail = :Mail, Titre= :Titre, Comment= :Comment WHERE Id = :Id");
-
-            $requete->execute([
-                "Auteur" => $this->getAuteur(),
-                "Mail" => $this->getMail(),
-                "Titre" => $this->getTitre(),
-                "Comment" => $this->getComment(),
-                "Id" => $this->getId()
-            ]);
-            return "OK";
-        }catch (\Exception $e){
-            return $e->getMessage();
-        }
-
-    }
-
-    public function SqlGetAll(\PDO $bdd){
-        $requete = $bdd->prepare("SELECT * FROM commentaires");
-        $requete->execute();
-        $datas =  $requete->fetchAll(\PDO::FETCH_CLASS,'src\Model\Commentaire');
-        return $datas;
-
-    }
-
-    public function SqlGetById(\PDO $bdd, $Id){
-        $requete = $bdd->prepare("SELECT * FROM commentaires WHERE Id=:Id");
+    public function SqlGetByArticleId(\PDO $bdd, $Id){
+        $requete = $bdd->prepare("SELECT * FROM commentaires WHERE ArticleId=:Id ");
         $requete->execute([
             "Id" => $Id
         ]);
         $requete->setFetchMode(\PDO::FETCH_CLASS,'src\Model\Commentaire');
-        $data = $requete->fetch();
+        $data = $requete->fetchAll();
 
         return $data;
     }
 
-    public function SqlDeleteById(\PDO $bdd, $Id){
-        $requete = $bdd->prepare("DELETE FROM commentaires WHERE Id=:Id");
-        $requete->execute([
-            "Id" => $Id
-        ]);
-        return true;
-    }
-
-    /**
-     * @return mixed
-     */
+    /** Id **/
     public function getId()
     {
         return $this->Id;
     }
 
-    /**
-     * @param mixed $Id
-     * @return Commentaire
-     */
     public function setId($Id)
     {
         $this->Id = $Id;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
+    /** ArticleId **/
+    public function getArticleId()
+    {
+        return $this->ArticleId;
+    }
+
+    public function setArticleId($ArticleId)
+    {
+        $this->ArticleId = $ArticleId;
+        return $this;
+    }
+
+    /** Auteur **/
     public function getAuteur()
     {
         return $this->Auteur;
     }
 
-    /**
-     * @param mixed $Auteur
-     * @return Commentaire
-     */
     public function setAuteur($Auteur)
     {
         $this->Auteur = $Auteur;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
+    /** Mail **/
     public function getMail()
     {
         return $this->Mail;
     }
 
-    /**
-     * @param mixed $Mail
-     * @return Commentaire
-     */
     public function setMail($Mail)
     {
         $this->Mail = $Mail;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTitre()
+    /** Dtae **/
+    public function getDate()
     {
-        return $this->Titre;
+        return $this->Date;
     }
 
-    /**
-     * @param mixed $Titre
-     * @return Commentaire
-     */
-    public function setTitre($Titre)
+    public function setDate()
     {
-        $this->Titre = $Titre;
+        $this->Date = date('Y-m-d H:i:s');
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
+    /** Commentaire **/
     public function getComment()
     {
         return $this->Comment;
     }
 
-    /**
-     * @param mixed $Comment
-     * @return Commentaire
-     */
     public function setComment($Comment)
     {
         $this->Comment = $Comment;

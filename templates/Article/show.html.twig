@@ -13,17 +13,30 @@
 
     <div class="col-md-6 col-md-offset-3 comments-section">
         <!-- comment form -->
-        <form class="clearfix" action="index.php" method="post" id="comment_form">
+        <form method="post">
             <h4>Ecrire un commentaire:</h4>
             <input type="text" name="Auteur" placeholder="Auteur">
             <input type="email" name="Mail" required placeholder="Votre email">
-            <input type="date" name="Date" required>
             <textarea name="Comment" id="comment" class="form-control" cols="30" rows="3"></textarea>
             <button class="btn btn-primary btn-sm pull-right" id="submit_comment">Envoyer</button>
         </form>
 
         <!-- Display total number of comments on this post  -->
-        <h2><span id="comments_count">0</span> Commentaire(s)</h2>
+        <h2><span id="comments_count">{{ comments|length }}</span> Commentaire(s)</h2>
+        {% for comment in comments %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ comment.Auteur }}</h5>
+                            <h6 class="card-title">{{ comment.Mail }}</h6>
+                            <p class="card-text">{{ comment.Comment }}</p>
+                            <span class="">{{ comment.Date }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
         <hr>
     </div>
 {% endblock %}

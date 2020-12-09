@@ -17,3 +17,13 @@ create table categorie
     Libelle varchar(50) null,
     icone   varchar(50) null
 );
+
+create table commentaires
+(
+    Id bigint auto_increment primary key,
+    Auteur varchar(50) null,
+    Mail varchar(50) null,
+    Comment text null,
+    Date date null,
+    ArticleId bigint null
+);

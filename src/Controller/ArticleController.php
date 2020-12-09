@@ -43,12 +43,29 @@ class ArticleController extends AbstractController {
     public function Show($id){
         $articles = new Article();
         $datas = $articles->SqlGetById(BDD::getInstance(),$id);
+
+        if($_POST){
+            $comment = new Commentaire();
+            $comment->setAuteur($_POST["Auteur"]);
+            $comment->setArticleId($datas->getId());
+            $comment->setMail($_POST["Mail"]);
+            $comment->setComment($_POST["Comment"]);
+            $comment->setDate();
+
+            //Exécuter l'insertion
+            $id = $comment->SqlAdd(BDD::getInstance());
+        }
+
         $categorie = new Categorie();
-        $dataCategorie = $categorie->SqlGetById(BDD::getInstance(),$datas->getCategorieId());
+        $dataCategorie = $categorie->SqlGetById(BDD::getInstance(), $datas->getCategorieId());
+
+        $comments = new Commentaire();
+        $commentsData = $comments->SqlGetByArticleId(BDD::getInstance(), $datas->getId());
 
         return $this->twig->render("Article/show.html.twig", [
             "article"=>$datas,
-            "categorie"=> $dataCategorie
+            "categorie"=> $dataCategorie,
+            "comments"=> $commentsData
         ]);
     }
 
