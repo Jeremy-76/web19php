@@ -10,12 +10,12 @@ create table articles
     imageFileName   varchar(255) null
 );
 
-create table categorie
+create table categories
 (
     Id      bigint auto_increment
         primary key,
     Libelle varchar(50) null,
-    icone   varchar(50) null
+    Icon   varchar(50) null
 );
 
 create table commentaires
