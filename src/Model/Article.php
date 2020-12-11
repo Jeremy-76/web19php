@@ -44,8 +44,7 @@ class Article {
      */
     public function setCategorieId($Categorie_Id)
     {
-        $this->categorie_id = $Categorie_Id;
-        return $this;
+        return $this->categorie_id = $Categorie_Id;
     }
 
     /**
