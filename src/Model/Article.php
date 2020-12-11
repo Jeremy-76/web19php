@@ -9,7 +9,7 @@ class Article {
     private $Auteur;
     private $ImageRepository;
     private $ImageFileName;
-    private $categorie_id;
+    private $Categorie_id;
     private $commentaire_id;
 
     /**
@@ -35,7 +35,7 @@ class Article {
      */
     public function getCategorieId()
     {
-        return $this->categorie_id;
+        return $this->Categorie_id;
     }
 
     /**
@@ -44,7 +44,7 @@ class Article {
      */
     public function setCategorieId($Categorie_Id)
     {
-        $this->categorie_id = $Categorie_Id;
+        $this->Categorie_id = $Categorie_Id;
         return $this;
     }
 
