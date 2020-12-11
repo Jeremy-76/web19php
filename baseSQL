@@ -7,7 +7,8 @@ create table articles
     DateAjout       date         null,
     Auteur          varchar(50)  null,
     imageRepository varchar(50)  null,
-    imageFileName   varchar(255) null
+    imageFileName   varchar(255) null,
+    Categorie_Id    bigint foreign key
 );
 
 create table categories
