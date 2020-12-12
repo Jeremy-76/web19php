@@ -28,10 +28,12 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">{{ comment.Auteur }}</h5>
-                            <h6 class="card-title">{{ comment.Mail }}</h6>
+                            <h5 class="card-author">{{ comment.Auteur }}</h5>
+                            <h6 class="card-mail">{{ comment.Mail }}</h6>
                             <p class="card-text">{{ comment.Comment }}</p>
-                            <span class="">{{ comment.Date }}</span>
+                            <span>{{ comment.Date }}</span>
+                            <p><a href="/commentaire/update/{{ comment.Id }}"> Modifier le commentaire </a></p>
+                            <p><a href="/commentaire/delete/{{ comment.Id }}"> Supprimer le commentaire </a></p>
                         </div>
                     </div>
                 </div>
